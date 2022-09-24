@@ -86,7 +86,6 @@ def fetch_nasa_earth_pictures(date):
 
 
 def main():
-#    url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
 #    urls = fetch_spacex_last_launch('https://api.spacexdata.com/v5/launches/5eb87d47ffd86e000604b38a')
 #    urls = fetch_nasa_day_pictures('2022-09-01', '2022-09-21')
     urls = fetch_nasa_earth_pictures('2019-05-30')
