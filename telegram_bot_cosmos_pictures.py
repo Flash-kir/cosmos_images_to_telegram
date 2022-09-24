@@ -12,9 +12,9 @@ from fetch_nasa_images_epic import fetch_images as fetch_nasa_epic_images
 
 
 def fetch_images_for_date(date):
-#    fetch_spacex_images('latest', f'images/{date}/')
-#    fetch_nasa_apod_images(date, date, f'images/{date}/')
-#    fetch_nasa_epic_images(date, f'images/{date}/')
+    fetch_spacex_images('latest', f'images/{date}/')
+    fetch_nasa_apod_images(date, date, f'images/{date}/')
+    fetch_nasa_epic_images(date, f'images/{date}/')
     folder = f'./images/{date}/'
     os.makedirs(os.path.join(folder), exist_ok=True)
     day_images = []
@@ -29,7 +29,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('-d', '--date', default='2022-09-01', help='начальная дата')
     parser.add_argument('-t', '--time_sleep', type=int, default='14400', help='пауза между публикациями в секундах')
-    parser.add_argument('-p', '--path_infinite', default='', help='бесконечный цикл')
+    parser.add_argument('-p', '--path_infinite', default='', help='путь к файлам для бесконечного цикла публикаций')
     parser.add_argument('-i', '--image_path', default='', help='опубликовать фото по указанному пути')
 
     return parser.parse_args()
@@ -46,7 +46,6 @@ if __name__ == '__main__':
         images_paths = [args.image_path]
     else:
         images_paths = fetch_images_for_date(args.date)
-    print(images_paths)
     while True:
         for image_path in images_paths:
             if 'nasa_apod_' in image_path:
@@ -56,7 +55,6 @@ if __name__ == '__main__':
             else:
                 image_from = 'SPACEX last launch picture'
         bot.send_message(chat_id=chat_id, text=f'Image from {image_from}')
-        #проверка пути и склейка
         bot.send_document(chat_id=chat_id, document=open(image_path, 'rb'))
         if not args.path_infinite:
             break
