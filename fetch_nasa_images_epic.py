@@ -33,11 +33,11 @@ def parse_args():
     return parser.parse_args()
 
 
-def fetch_images(date):
+def fetch_images(date, folder='images/epic/'):
     pictures_names = get_nasa_earth_pictures_names(date)
     urls = fetch_nasa_earth_pictures(date, pictures_names)
     for url in urls:
-        download_image(url, token=os.environ.get('NASA_TOKEN'), folder='images/epic/', prefix='nasa_')
+        download_image(url, token=os.environ.get('NASA_TOKEN'), folder=folder, prefix='nasa_')
 
 
 def main():

@@ -27,10 +27,10 @@ def parse_args():
     return parser.parse_args()
 
 
-def fetch_images(start_date, end_date):
+def fetch_images(start_date, end_date, folder='images/apod/'):
     urls = fetch_nasa_day_pictures(start_date, end_date)
     for url in urls:
-        download_image(url, token=os.environ.get('NASA_TOKEN'), folder='images/apod/', prefix='nasa_apod_')
+        download_image(url, token=os.environ.get('NASA_TOKEN'), folder=folder, prefix='nasa_apod_')
 
 
 def main():

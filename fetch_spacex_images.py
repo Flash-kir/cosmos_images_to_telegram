@@ -14,18 +14,19 @@ def fetch_spacex_launch(launch_id: str) -> list:
 def parse_args():
     parser = argparse.ArgumentParser(description="загрузит фото от SpaceX по указанному ID запуска")
     parser.add_argument('-l', '--launch_id', default='latest', help='ID запуска')
+    parser.add_argument('-f', '--folder', default='images/spasex/', help='папка для изображений')
     return parser.parse_args()
 
 
-def fetch_images(launch_id):
+def fetch_images(launch_id, folder):
     urls = fetch_spacex_launch(launch_id)
     for url in urls:
-        download_image(url, folder='images/spasex/', prefix='spasex_')
+        download_image(url, folder=folder, prefix='spasex_')
 
 
 def main():
     args = parse_args()
-    fetch_images(args.launch_id)
+    fetch_images(args.launch_id, args.folder)
 
 
 if __name__ == '__main__':
