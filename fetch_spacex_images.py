@@ -3,7 +3,7 @@ import argparse
 
 from fetch_images import download_image, check_for_redirect
 
-def fetch_spacex_launch(launch_id: str) -> list:
+def fetch_spacex_launch_pictures(launch_id: str) -> list:
     url = f'https://api.spacexdata.com/v5/launches/{launch_id}'
     response = requests.get(url, allow_redirects=True)
     response.raise_for_status()
@@ -19,7 +19,7 @@ def parse_args():
 
 
 def fetch_images(launch_id, folder):
-    urls = fetch_spacex_launch(launch_id)
+    urls = fetch_spacex_launch_pictures(launch_id)
     for url in urls:
         download_image(url, folder=folder, prefix='spasex_')
 

@@ -3,19 +3,18 @@ import argparse
 import os
 
 from dotenv import load_dotenv
-load_dotenv()
 
 from fetch_images import download_image, check_for_redirect
 
-def get_nasa_earth_pictures_names(date):
+def get_nasa_earth_pictures_names(date, token):
     nasa_url = f'https://api.nasa.gov/EPIC/api/natural/date/{date}'
     params = {
-        'api_key': os.environ.get('NASA_TOKEN')
+        'api_key': token
     }
     response = requests.get(nasa_url, params=params, allow_redirects=True)
     response.raise_for_status()
     check_for_redirect(response)
-    return [x['image'] for x in response.json()]
+    return [picture_context['image'] for picture_context in response.json()]
 
 
 def fetch_nasa_earth_pictures(date, pictures_names):
@@ -33,16 +32,18 @@ def parse_args():
     return parser.parse_args()
 
 
-def fetch_images(date, folder='images/epic/'):
-    pictures_names = get_nasa_earth_pictures_names(date)
+def fetch_images(date, token, folder='images/epic/'):
+    pictures_names = get_nasa_earth_pictures_names(date, token)
     urls = fetch_nasa_earth_pictures(date, pictures_names)
     for url in urls:
-        download_image(url, token=os.environ.get('NASA_TOKEN'), folder=folder, prefix='nasa_')
+        download_image(url, token=token, folder=folder, prefix='nasa_')
 
 
 def main():
     args = parse_args()
-    fetch_images(args.date)
+    load_dotenv()
+    token = os.environ.get('NASA_TOKEN')
+    fetch_images(args.date, token)
 
 
 if __name__ == '__main__':
